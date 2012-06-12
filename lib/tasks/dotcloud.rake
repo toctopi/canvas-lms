@@ -39,6 +39,11 @@ namespace :dotcloud do
   task :db_prod_to_staging do
     clone_production_db_to_staging
   end
+
+  desc 'Clone local db to prod'
+  task :db_local_to_prod do
+    clone_local_db_to_prod
+  end
   
   desc 'Restore the remote db from local copy in db/db.sql'
   task :restore_db, :env do |t, args|
@@ -198,6 +203,20 @@ namespace :dotcloud do
     setup_db(env)
     system "dotcloud run #{app_name(env)}.db 'rm db.sql'"
     system "dotcloud run #{app_name(env)}.db 'cat > db.sql' < #{db_file}"
+    system %Q{dotcloud run #{app_name(env)}.db "mysql -u root -p#{environment.DOTCLOUD_DB_MYSQL_PASSWORD} #{db_name(env)} < db.sql"}
+  end
+
+  def clone_local_db_to_prod
+    env = 'production'
+    db = OpenStruct.new(YAML.load_file("config/database.yml"))
+    password = "-p#{db.development['password']}" if db.development['password']
+    db_file = "tempdb.sql"
+
+    system "mysqldump -u #{db.development['username']} #{password} #{db.development['database']} > #{db_file}"
+    environment = get_environment(env)
+    system "dotcloud run #{app_name(env)}.db 'cat > db.sql' < #{db_file}"
+    system "dotcloud run #{app_name(env)}.www 'cd ~/current;RAILS_ENV=#{app_env(env)} rake db:drop'"
+    setup_db(env)
     system %Q{dotcloud run #{app_name(env)}.db "mysql -u root -p#{environment.DOTCLOUD_DB_MYSQL_PASSWORD} #{db_name(env)} < db.sql"}
   end
   
