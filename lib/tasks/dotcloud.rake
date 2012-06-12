@@ -106,17 +106,17 @@ namespace :dotcloud do
     get_config[env.to_s]['newrelic']['application_number']
   end
 
-  def newrelic?
+  def newrelic?(env)
     get_config[env.to_s]['newrelic']
   end
   
   def deploy(env)
     puts "Started deploy"
-    disable_newrelic_pinging(env) if newrelic?
+    disable_newrelic_pinging(env) if newrelic?(env)
     do_push(env)
     setup_symlinks(env)
     update_db(env)
-    enable_newrelic_pinging(env) if newrelic?
+    enable_newrelic_pinging(env) if newrelic?(env)
     start_delayed_jobs_deamon(env)
   end
   
@@ -154,7 +154,7 @@ namespace :dotcloud do
   
   def setup_all(env)
     puts "Started setup all"
-    disable_newrelic_pinging(env) if newrelic?
+    disable_newrelic_pinging(env) if newrelic?(env)
     do_push(env)
     setup_db(env)
     setup_dirs(env)
@@ -163,7 +163,7 @@ namespace :dotcloud do
     update_db(env)
     system "dotcloud alias add #{app_name(env)}.www #{app_domain(env)}" if app_domain(env)
     remove_environment(env)
-    enable_newrelic_pinging(env) if newrelic?
+    enable_newrelic_pinging(env) if newrelic?(env)
     start_delayed_jobs_deamon(env)
   end
   
@@ -271,12 +271,12 @@ namespace :dotcloud do
     system "dotcloud run #{app_name(env)}.www 'rm ~/current/config/security.yml'"
     system "dotcloud run #{app_name(env)}.www 'rm ~/current/config/domain.yml'"
     system "dotcloud run #{app_name(env)}.www 'rm ~/current/config/delayed_jobs.yml'"
-    system "dotcloud run #{app_name(env)}.www 'rm ~/current/config/newrelic.yml'" if newrelic?
+    system "dotcloud run #{app_name(env)}.www 'rm ~/current/config/newrelic.yml'" if newrelic?(env)
     system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/database.yml ~/current/config'"
     system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/security.yml ~/current/config'"
     system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/domain.yml ~/current/config'"
     system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/delayed_jobs.yml ~/current/config'"
-    system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/newrelic.yml ~/current/config'" if newrelic?
+    system "dotcloud run #{app_name(env)}.www 'ln -s ~/data/config/newrelic.yml ~/current/config'" if newrelic?(env)
     puts "Finished adding symlinks"
   end
   
@@ -293,9 +293,9 @@ namespace :dotcloud do
     system "dotcloud run #{app_name(env)}.www 'cat > data/config/security.yml' < config/security.yml"
     system "dotcloud run #{app_name(env)}.www 'cat > data/config/domain.yml' < config/domain.yml"
     system "dotcloud run #{app_name(env)}.www 'cat > data/config/delayed_jobs.yml' < config/delayed_jobs.yml"
-    if (env == "production" && newrelic?)
+    if (env == "production" && newrelic?(env))
       system "dotcloud run #{app_name(env)}.www 'cat > data/config/newrelic.yml' < config/newrelic.yml"
-    elsif (env == "staging" && newrelic?)
+    elsif (env == "staging" && newrelic?(env))
       system "dotcloud run #{app_name(env)}.www 'cat > data/config/newrelic.yml' < config/staging/newrelic.yml"
     end        
     system "dotcloud run #{app_name(env)}.www 'cat > data/config/database.yml' < #{database_config_file}"
