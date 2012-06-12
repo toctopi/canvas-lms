@@ -1,0 +1,1 @@
+define(["i18nObj","jquery"],function(a,b){b.extend(!0,a,{translations:{es:{quizzes:{index:{buttons:{publishing_quizzes:"Publicando Evaluaciones..."},confirms:{delete_quiz:"¿Seguro que quiere borrar esa evaluación?"},default_title:"Evaluación Sin Nombre"}}}}})})

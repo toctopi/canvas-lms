@@ -1,0 +1,1 @@
+(function(){define(["i18n!discussions","compiled/discussions/app"],function(a,b){var c,d;return c={avatar_image_url:null,display_name:a.t("uknown_author","Unknown Author"),id:null},d=function(a){var d,e;return d=(e=b.topicView.discussion)!=null?e.participants.get(a):void 0,d!=null?d.toJSON():a===ENV.DISCUSSION.CURRENT_USER.id?ENV.DISCUSSION.CURRENT_USER:c}})}).call(this)

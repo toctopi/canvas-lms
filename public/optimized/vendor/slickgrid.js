@@ -1,0 +1,1 @@
+define(["use!vendor/slickgrid/slick.grid","use!vendor/slickgrid/slick.editors","use!vendor/slickgrid/plugins/slick.rowselectionmodel"],function(a){return a})

@@ -1,0 +1,1 @@
+define(["jquery","jqueryui/draggable-unpatched"],function(a,b){var c=a.ui.draggable.prototype._mouseMove;return a.ui.draggable.prototype._mouseMove=function(){var a=c.apply(this,arguments);return this.options.instructureHackToNotAutoSizeTop&&(this.helper[0].style.top=""),a},b})

@@ -44,7 +44,6 @@ public/*/*/*/*/*/*/*.gz
 public/*/*/*/*/*/*/*/*.gz
 public/*/*/*/*/*/*/*/*/*.gz
 .*.sw?
-public/assets/*
 doc/plugins/*
 public/doc/api/*
 .yardoc/*
@@ -54,7 +53,6 @@ spec/javascripts/*/*/*Spec.js
 spec/javascripts/helpers/
 spec/javascripts/plugins/
 spec/javascripts/runner.html
-public/optimized
 !node_modules
 chromedriver.log
 public/plugins/

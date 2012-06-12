@@ -1,0 +1,1 @@
+define(["use!vendor/backbone","compiled/backbone-ext/Backbone.syncWithMultipart","compiled/backbone-ext/Model","compiled/backbone-ext/View"],function(a){return a.noConflict()})
