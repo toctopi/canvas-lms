@@ -107,7 +107,7 @@ namespace :dotcloud do
   end
 
   def newrelic?(env)
-    get_config[env.to_s]['newrelic']
+    get_config[env.to_s]['newrelic']['api']
   end
   
   def deploy(env)
