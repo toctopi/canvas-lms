@@ -1,0 +1,28 @@
+production:
+  dotcloud_config_file: octopi.conf
+  name: octopi
+  url: 
+  newrelic:
+    api: 
+    account_number: 
+    application_number: 
+  db:
+    name: canvas_production
+    password: N3SE8S7f234asfejasdaserawerf245dfxg5AZmWRZwYFD
+    queue:
+      name: canvas_queue_production
+
+staging:
+  # export DOTCLOUD_CONFIG_FILE=saylor_stage.conf
+  dotcloud_config_file: octopi_stage.conf
+  name: staging
+  url: 
+  newrelic:
+    api: 
+    account_number: 
+    application_number: 
+  db:
+    name: canvas_production
+    password: 28352edEWdud62tdjast256a0asdfa324dfgfb9hADStywS
+    queue:
+      name: canvas_queue_production
