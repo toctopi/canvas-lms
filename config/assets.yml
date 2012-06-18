@@ -137,6 +137,7 @@ stylesheets:
     - public/stylesheets/compiled/g_groups.css
     - public/stylesheets/compiled/g_media_comments.css
     - public/stylesheets/compiled/g_context_modules.css
+    - public/stylesheets/compiled/g_octopi.css
     - public/stylesheets/compiled/g_collaborations.css
     - public/stylesheets/compiled/g_files.css
     - public/stylesheets/compiled/g_wiki.css
