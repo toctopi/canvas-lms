@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  misconception_id: 1
+  name: MyString
+  pattern: MyString
+  paths: MyString
+
+two:
+  misconception_id: 1
+  name: MyString
+  pattern: MyString
+  paths: MyString
