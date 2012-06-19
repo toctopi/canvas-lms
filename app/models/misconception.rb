@@ -1,21 +1,20 @@
 class Misconception < ActiveRecord::Base
-	#attr_accessible :name, :pattern, :paths
 
-	def json_pattern=(hash)
-		self.pattern = hash.to_json
+	def pattern=(hash)
+		write_attribute(:pattern, hash.to_json)
 		@pattern_hash = hash.clone
 	end
 
-	def json_pattern
-		@pattern_hash ||= JSON.parse(self.pattern)
+	def pattern
+		@pattern_hash ||= JSON.parse(read_attribute(:pattern))
 	end
 
-	def json_paths=(hash)
-		self.paths = hash.to_json
+	def paths=(hash)
+		write_attribute(:paths, hash.to_json)
 		@paths_hash = hash.clone
 	end
 
-	def json_paths
-		@paths_hash ||= JSON.parse(self.paths)
+	def paths
+		@paths_hash ||= JSON.parse(read_attribute(:paths))
 	end
 end
