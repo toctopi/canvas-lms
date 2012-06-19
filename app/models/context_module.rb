@@ -18,7 +18,7 @@
 
 class ContextModule < ActiveRecord::Base
   include Workflow
-  attr_accessible :context, :name, :unlock_at, :require_sequential_progress, :completion_requirements, :prerequisites
+  attr_accessible :context, :name, :unlock_at, :require_sequential_progress, :completion_requirements, :prerequisites, :adaptive_sequence
   belongs_to :context, :polymorphic => true
   belongs_to :cloned_item
   has_many :context_module_progressions, :dependent => :destroy

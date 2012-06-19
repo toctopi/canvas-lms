@@ -185,7 +185,7 @@ define([
       editModule: function($module) {
         var $form = $("#add_context_module_form");
         $form.data('current_module', $module);
-        var data = $module.getTemplateData({textValues: ['name', 'unlock_at', 'require_sequential_progress']});
+        var data = $module.getTemplateData({textValues: ['name', 'unlock_at', 'adaptive_sequence', 'require_sequential_progress']});
         $form.fillFormData(data, {object_name: 'context_module'});
         var isNew = false;
         if($module.attr('id') == 'context_module_new') {
@@ -202,6 +202,7 @@ define([
         }
         $form.find("#unlock_module_at").prop('checked', data.unlock_at).triggerHandler('change');
         $form.find("#require_sequential_progress").attr('checked', data.require_sequential_progress == "true" || data.require_sequential_progress == "1");
+        $form.find("#adaptive_sequence").attr('checked', data.adaptive_sequence == "true" || data.adaptive_sequence == "1");
         $form.find(".prerequisites_entry").showIf($("#context_modules .context_module").length > 1);
         var prerequisites = [];
         $module.find(".prerequisites .criterion").each(function() {
