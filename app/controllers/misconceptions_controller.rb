@@ -8,8 +8,8 @@ class MisconceptionsController < ApplicationController
   end
 
   def index
-  	debugger
-  	@misconceptions = @context.misconceptions
+  	#debugger
+  	#@misconceptions = @context.misconceptions
   end
 
   def show

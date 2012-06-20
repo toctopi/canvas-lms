@@ -4,6 +4,9 @@ class CreateMisconceptions < ActiveRecord::Migration
   def self.up
     create_table :misconceptions do |t|
       t.integer :quiz_id, :limit => 8
+      t.string :name, :limit => 2048
+      t.string :pattern, :limit => 2048
+      t.string :paths, :limit => 2048
       t.integer :context_id, :limit => 8
       t.string :context_type
 

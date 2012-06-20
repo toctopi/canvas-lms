@@ -2,6 +2,16 @@
 
 one:
   quiz_id: 1
+  name: MyString
+  pattern: MyString
+  paths: MyString
+  context_id: 1
+  context_type: MyString
 
 two:
   quiz_id: 1
+  name: MyString
+  pattern: MyString
+  paths: MyString
+  context_id: 1
+  context_type: MyString
