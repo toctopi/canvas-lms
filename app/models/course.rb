@@ -2420,6 +2420,7 @@ class Course < ActiveRecord::Base
   TAB_ANNOUNCEMENTS = 14
   TAB_OUTCOMES = 15
   TAB_COLLABORATIONS = 16
+  TAB_MISCONCEPTIONS = 17
 
   def self.default_tabs
     [
@@ -2434,6 +2435,7 @@ class Course < ActiveRecord::Base
       { :id => TAB_FILES, :label => t('#tabs.files', "Files"), :css_class => 'files', :href => :course_files_path },
       { :id => TAB_SYLLABUS, :label => t('#tabs.syllabus', "Syllabus"), :css_class => 'syllabus', :href => :syllabus_course_assignments_path },
       { :id => TAB_OUTCOMES, :label => t('#tabs.outcomes', "Outcomes"), :css_class => 'outcomes', :href => :course_outcomes_path },
+      { :id => TAB_MISCONCEPTIONS, :label => t('#tabs.misconceptions', "Misconceptions"), :css_class => 'misconceptions', :href => :course_misconceptions_path },
       { :id => TAB_QUIZZES, :label => t('#tabs.quizzes', "Quizzes"), :css_class => 'quizzes', :href => :course_quizzes_path },
       { :id => TAB_MODULES, :label => t('#tabs.modules', "Modules"), :css_class => 'modules', :href => :course_context_modules_path },
       { :id => TAB_CONFERENCES, :label => t('#tabs.conferences', "Conferences"), :css_class => 'conferences', :href => :course_conferences_path },
@@ -2494,6 +2496,7 @@ class Course < ActiveRecord::Base
       tab[:hidden_unused] = true if tab[:id] == TAB_MODULES && !active_record_types[:modules]
       tab[:hidden_unused] = true if tab[:id] == TAB_FILES && !active_record_types[:files]
       tab[:hidden_unused] = true if tab[:id] == TAB_QUIZZES && !active_record_types[:quizzes]
+      tab[:hidden_unused] = true if tab[:id] == TAB_MISCONCEPTIONS && !active_record_types[:misconceptions]
       tab[:hidden_unused] = true if tab[:id] == TAB_ASSIGNMENTS && !active_record_types[:assignments]
       tab[:hidden_unused] = true if tab[:id] == TAB_PAGES && !active_record_types[:pages] && !allow_student_wiki_edits
       tab[:hidden_unused] = true if tab[:id] == TAB_CONFERENCES && !active_record_types[:conferences] && !self.grants_right?(user, nil, :create_conferences)
@@ -2536,6 +2539,7 @@ class Course < ActiveRecord::Base
       tabs.delete_if { |t| t[:id] == TAB_DISCUSSIONS } unless self.grants_rights?(user, opts[:session], :read_forum, :moderate_forum, :post_to_forum).values.any?
       tabs.detect { |t| t[:id] == TAB_DISCUSSIONS }[:manageable] = true if self.grants_right?(user, opts[:session], :moderate_forum)
       tabs.delete_if { |t| t[:id] == TAB_SETTINGS } unless self.grants_right?(user, opts[:session], :read_as_admin)
+      tabs.delete_if { |t| t[:id] == TAB_MISCONCEPTIONS } unless self.grants_right?(user, opts[:session], :read_as_admin)
 
       if !user || !self.grants_right?(user, nil, :manage_content)
         # remove some tabs for logged-out users or non-students

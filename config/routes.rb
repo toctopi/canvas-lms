@@ -266,6 +266,10 @@ ActionController::Routing::Routes.draw do |map|
       quiz.lockdown_browser_required "lockdown_browser_required", :controller => "quizzes", :action => "lockdown_browser_required"
     end
 
+    course.resources :misconceptions do |misconception|
+    end
+
+
     course.resources :collaborations
     course.resources :short_messages
 
