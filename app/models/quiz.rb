@@ -33,6 +33,7 @@ class Quiz < ActiveRecord::Base
   attr_readonly :context_id, :context_type
   attr_accessor :notify_of_update
   
+
   has_many :quiz_questions, :dependent => :destroy, :order => 'position'
   has_many :quiz_submissions, :dependent => :destroy
   has_many :quiz_groups, :dependent => :destroy, :order => 'position'
@@ -40,6 +41,9 @@ class Quiz < ActiveRecord::Base
   belongs_to :context, :polymorphic => true
   belongs_to :assignment
   belongs_to :cloned_item
+  
+  has_one :misconception
+
   validates_length_of :description, :maximum => maximum_long_text_length, :allow_nil => true, :allow_blank => true
   validates_length_of :title, :maximum => maximum_string_length, :allow_nil => true
   validates_presence_of :context_id
