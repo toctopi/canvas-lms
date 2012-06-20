@@ -8,8 +8,7 @@ class MisconceptionsController < ApplicationController
   end
 
   def index
-  	#debugger
-  	#@misconceptions = @context.misconceptions
+  	@misconceptions = Quiz.find(params[:quiz_id]).misconceptions
   end
 
   def show

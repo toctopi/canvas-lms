@@ -15,7 +15,7 @@ describe Misconception do
     @group.save
 
     @valid_attributes = {
-      :quiz_id => @bank.id
+      :quiz_id => @quiz.id
     }
     @misconception = Misconception.new
   end
@@ -27,13 +27,13 @@ describe Misconception do
   describe "quiz_id field" do
   	it "should store the id of the quiz" do
   		@misconception.quiz_id.should be_nil
-  		@misconception.quiz_id = @bank.id
-  		@misconception.quiz_id.should == @bank.id
+  		@misconception.quiz_id = @quiz.id
+  		@misconception.quiz_id.should == @quiz.id
   	end
 
   	it "should save the quiz" do
   		@misconception.quiz = @quiz
-  		@misconception.quiz_id.should == @bank.id
+  		@misconception.quiz_id.should == @quiz.id
   	end
   end
 
