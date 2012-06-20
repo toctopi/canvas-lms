@@ -1,5 +1,6 @@
 class MisconceptionItem < ActiveRecord::Base
-	belongs_to :misconception
+	belongs_to :misconception, :touch => true
+	delegate :context, :context_id, :context_type, :to => :misconception
 
 	def pattern=(hash)
 		write_attribute(:pattern, hash.to_json)

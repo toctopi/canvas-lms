@@ -1,8 +1,9 @@
 require 'spec_helper'
+require 'ruby-debug'
 
 describe Misconception do
   before(:each) do
-    course
+    @context = course
     @bank = @course.assessment_question_banks.create!(:title=>'Test Bank')
     @bank.assessment_questions.create!(:question_data => {'name' => 'test question', 'answers' => [{'id' => 1}, {'id' => 2}]})
     @bank.assessment_questions.create!(:question_data => {'name' => 'test question 2', 'answers' => [{'id' => 3}, {'id' => 4}]})
@@ -40,8 +41,17 @@ describe Misconception do
   	it "should be available" do
   		miscon_item = MisconceptionItem.create!
   		@misconception.misconception_items << miscon_item
+      debugger
   		@misconception.misconception_items.first.id.should == miscon_item.id
   	end
+  end
+
+  describe "context access" do
+    it "should save to the current context" do 
+      debugger
+      @misconception.context << @context
+      @misconception.context_id.should == @context.id
+    end
   end
 
 end
