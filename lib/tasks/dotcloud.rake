@@ -56,6 +56,12 @@ namespace :dotcloud do
     args.with_defaults(:env => 'production')
     initial_setup(args.env)
   end
+
+  desc 'Do initial setup on dotcloud. Can only be run once'
+  task :initial_setup_live, :env do |t, args|
+    args.with_defaults(:env => 'production')
+    initial_setup_live(args.env)
+  end
   
   desc 'Setup on dotcloud. Can be run multiple times if needed.'
   task :setup, :env do |t, args|
@@ -126,6 +132,11 @@ namespace :dotcloud do
   end
   
   def initial_setup(env)
+    system "dotcloud create #{app_name(env)}"
+    setup_all(env)
+  end
+
+  def initial_setup_live(env)
     system "dotcloud create #{app_name(env)} -f live"
     setup_all(env)
   end
