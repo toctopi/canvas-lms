@@ -15,7 +15,11 @@ describe Misconception do
     @group.save
 
     @valid_attributes = {
-      :quiz_id => @quiz.id
+      :quiz_id => @quiz.id,
+      :name => "Untitled", 
+      :pattern => "", 
+      :paths => "", 
+      :workflow_state => "available"
     }
     @misconception = Misconception.new
   end

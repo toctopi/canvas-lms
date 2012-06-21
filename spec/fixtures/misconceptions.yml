@@ -7,6 +7,7 @@ one:
   paths: MyString
   context_id: 1
   context_type: MyString
+  workflow_state: MyString
 
 two:
   quiz_id: 1
@@ -15,3 +16,4 @@ two:
   paths: MyString
   context_id: 1
   context_type: MyString
+  workflow_state: MyString

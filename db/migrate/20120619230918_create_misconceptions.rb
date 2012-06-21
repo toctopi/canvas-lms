@@ -9,6 +9,7 @@ class CreateMisconceptions < ActiveRecord::Migration
       t.string :paths, :limit => 2048
       t.integer :context_id, :limit => 8
       t.string :context_type
+      t.string :workflow_state
 
       t.timestamps
     end

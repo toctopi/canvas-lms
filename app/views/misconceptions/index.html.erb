@@ -1,4 +1,58 @@
+<style type="text/css">
+.table-row{
+	border-top-style:solid;
+	border-width:2px;
+}
+th{
+	border-right-style: solid;
+	border-left-style: solid;
+	border-width: 2px;
+}
+</style>
+
 <h1>Misconceptions</h1>
-<% @misconceptions.each do |misconception| %>
-	<div> <%= misconception.name %> </div>
+<% if @misconceptions.count > 0 -%>
+	<table>
+		<tr>
+			<th width="130px"> Code </th>
+			<th width="200px"> Responses </th>
+			<th width="60px"> Min Count </th>
+			<th width="100px"> Min Total Count </th>
+			<th width="300px"> Paths </th>
+		</tr>
+		<% @misconceptions.each do |misconception| -%>
+			<% if misconception.workflow_state == "available" -%>
+			<tr class="table-row">
+				<th> <%= misconception.name %> </th>
+				<th> 
+					<% if !misconception.pattern.empty? -%>
+						<% misconception.pattern.each do |question_id, answer_id| -%>
+							<%= question_id %>:<%=answer_id%>, 
+						<% end -%>
+					<% end -%>
+				</th>
+				<% if misconception.paths.empty? -%>
+					<th /><th /><th /> <th><a href="/">Add Items</a></th>
+					</tr><th /><th />
+				<% else -%>
+					<% misconception.paths.each do |min_count, other| -%>
+						<% other.each do |min_total_count, path| -%>
+						  <th> <%= min_count %> </th>
+							<th> <%= min_total_count %> </th>
+							<th>
+								<% path.each do |item| -%>
+									<%= Assignment.find(item).title %>, 
+								<% end -%>
+							</th>
+							<th><a href="/">Add Items</a></th>
+						</tr><tr>
+						<th /> <th />
+						<% end -%>
+					<% end -%>
+				<% end -%>
+
+			<% end -%>
+		<% end -%>
+	</table>
 <% end -%>
+<a href="<%= new_course_quiz_misconception_path %>" class="button">Add Misconception</a>
