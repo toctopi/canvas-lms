@@ -69,6 +69,19 @@ class QuizQuestionsController < ApplicationController
     if authorized_action(@quiz, @current_user, :update)
       debugger
       @question = @quiz.quiz_questions.find(params[:id])
+
+      @question.question_data[:answers].each_with_index do |answer, index|
+        misconception = Misconception.find(answer[:misconception_id])
+        miscon = misconception.pattern
+        if miscon.empty?
+          misconception.pattern = {"#{answer[:id]}"=>@question.id}
+        else
+          miscon.merge!({"#{answer[:id]}"=>@question.id})
+          misconception.pattern = miscon
+        end
+        misconception.save!
+      end
+      
       #@question.question_data[:answers].each_with_index do |answer, index|
         #misconception = Misconception.find(answer)
       #end
