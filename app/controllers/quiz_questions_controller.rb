@@ -55,6 +55,7 @@ class QuizQuestionsController < ApplicationController
 
   def update
     if authorized_action(@quiz, @current_user, :update)
+      debugger
       @question = @quiz.quiz_questions.find(params[:id])
       question_data = params[:question]
       question_data ||= {}

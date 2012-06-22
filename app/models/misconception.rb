@@ -2,6 +2,10 @@ class Misconception < ActiveRecord::Base
 	belongs_to :quiz, :touch => true
 	belongs_to :context, :polymorphic => true
 
+	named_scope :active, lambda {
+    {:conditions => ['misconceptions.workflow_state != ?', 'deleted'] }
+  }
+
 	def pattern=(hash)
 		write_attribute(:pattern, hash.to_json)
 		@pattern_hash = hash.clone
