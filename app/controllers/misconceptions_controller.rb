@@ -3,7 +3,7 @@ class MisconceptionsController < ApplicationController
 
   def new
     quiz = Quiz.find(params[:quiz_id])
-    misconception = quiz.misconceptions.create!(:quiz_id => quiz.id, :name => "Untitled", :pattern => [], :paths => [], :workflow_state => "available")
+    misconception = quiz.misconceptions.create!(:quiz_id => quiz.id, :name => "Untitled", :pattern => {}, :paths => {}, :workflow_state => "available")
 
     redirect_to :back
   end
