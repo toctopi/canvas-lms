@@ -24,13 +24,7 @@ th{
 			<% if misconception.workflow_state == "available" -%>
 			<tr class="table-row">
 				<th> <%= misconception.name %> </th>
-				<th> 
-					<% if !misconception.pattern.empty? -%>
-						<% misconception.pattern.each do |question_id, answer_id| -%>
-							<%= question_id %>:<%=answer_id%>, 
-						<% end -%>
-					<% end -%>
-				</th>
+				<th><% if !misconception.pattern.empty? -%><% misconception.pattern.each do |answer_id, question_id| -%><% quiz_question = QuizQuestion.find(question_id) -%><%= quiz_question.position %>:<% quiz_question.question_data[:answers].each_with_index do |question, index| -%><% if question[:id] == answer_id.to_i -%><%= @abc[index-1] %> <% end -%><% end -%><% end -%><% end -%></th>
 				<% if misconception.paths.empty? -%>
 					<th /><th /><th /> <th><a href="/">Add Items</a></th>
 					</tr><th /><th />

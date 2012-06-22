@@ -12,6 +12,7 @@ class MisconceptionsController < ApplicationController
   end
 
   def index
+    @abc = ["A", "B", "C", "D"]
     add_crumb("Misconceptions")
   	@misconceptions = Quiz.find(params[:quiz_id]).misconceptions
   end
