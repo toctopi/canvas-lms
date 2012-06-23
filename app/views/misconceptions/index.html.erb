@@ -12,6 +12,14 @@ th{
 
 <% context = @context %>
 <h1>Misconceptions</h1>
+<% content_for :right_side do %>
+  <div style="position: relative;">
+    <% @quiz = Quiz.find(params[:quiz_id]) -%>
+    <% if can_do(@quiz, @current_user, :update) -%>
+      <a href="<%= context_url(@context, :edit_context_quiz_url, @quiz) %>" class="button button-sidebar button-sidebar-wide"><%= image_tag "edit.png" %> <%= @quiz.survey? ? t('links.edit_this_survey', "Edit This Survey") : t('links.edit_this_quiz', "Edit This Quiz") %></a>
+    <% end -%>
+  </div>
+<% end -%>
 <% if @misconceptions.count > 0 -%>
 	<table>
 		<tr>
@@ -31,8 +39,9 @@ th{
 				<th>
 					<% if !misconception.pattern.empty? -%>
 						<% misconception.pattern.each do |answer_id, question_id| -%> 
-							<% quiz_question = QuizQuestion.find(question_id) -%>
-							<%= quiz_question.position %>:<%= @abc[answer_id.to_i] %> 
+							<% if quiz_question = QuizQuestion.find(question_id) rescue nil -%>
+  							<%= quiz_question.position %>:<%= @abc[answer_id.to_i] %> 
+              <% end -%>
 						<% end -%>
 					<% end -%></th>
 				<% if misconception.paths.empty? -%>

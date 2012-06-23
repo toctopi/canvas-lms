@@ -39,17 +39,17 @@ class QuizQuestionsController < ApplicationController
       @question = @quiz.quiz_questions.create(:quiz_group => @group, :question_data => question_data)
       @quiz.did_edit if @quiz.created?
       
-      # @question.question_data[:answers].each_with_index do |answer, index|
-      #   misconception = Misconception.find(answer[:misconception_id])
-      #   miscon = misconception.pattern
-      #   if miscon.empty?
-      #     misconception.pattern = {"#{index}"=>@question.id}
-      #   else
-      #     miscon.merge!({"#{index}"=>@question.id})
-      #     misconception.pattern = miscon
-      #   end
-      #   misconception.save!
-      # end
+      @question.question_data[:answers].each_with_index do |answer, index|
+        misconception = Misconception.find(answer[:misconception_id])
+        miscon = misconception.pattern
+        if miscon.empty?
+          misconception.pattern = {"#{index}"=>@question.id}
+        else
+          miscon.merge!({"#{index}"=>@question.id})
+          misconception.pattern = miscon
+        end
+        misconception.save!
+      end
       
       render :json => @question.to_json(:include => :assessment_question)
     end
