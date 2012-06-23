@@ -381,6 +381,26 @@ class QuizSubmission < ActiveRecord::Base
     self.questions_as_object.each do |q|
       user_answer = self.class.score_question(q, data)
       @user_answers << user_answer
+
+      @misconceptions.active.each do |misconception|
+        if (misconception.pattern["#{user_answer[:question_id]}"] == user_answer[:answer_id])
+          num = @error_hash["#{misconception.name}"]
+          num += 1
+          miscon = {"#{misconception.name}"=>num}
+          @error_hash.merge!(miscon)
+          if (!user_answer[:correct])
+            num = @error_hash["total_error_tally"]
+            num += 1
+            miscon = {"total_error_tally"=>num}
+            @error_hash.merge!(miscon)
+          end
+          misconception.save!
+        end
+      end
+
+      debugger
+
+
       @tally += (user_answer[:points] || 0) if user_answer[:correct]
     end
     self.score = @tally
@@ -539,7 +559,7 @@ class QuizSubmission < ActiveRecord::Base
       :points => user_answer.score,
       :question_id => user_answer.question_id,
     }
-    debugger
+    
     result[:answer_id] = user_answer.answer_id if user_answer.answer_id
     result.merge!(user_answer.answer_details)
     return result

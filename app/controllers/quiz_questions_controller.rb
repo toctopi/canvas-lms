@@ -45,9 +45,7 @@ class QuizQuestionsController < ApplicationController
         if miscon.empty?
           misconception.pattern = {"#{@question.id}"=>[answer[:id]]}
         else
-          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) do |key, oldval, newval|
-            (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
-          end
+          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) { |key, oldval, newval| oldval | newval }
           misconception.pattern = miscon
         end
         misconception.save!
@@ -100,9 +98,7 @@ class QuizQuestionsController < ApplicationController
         if miscon.empty?
           misconception.pattern = {"#{@question.id}"=>[answer[:id]]}
         else
-          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) do |key, oldval, newval|
-            (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
-          end
+          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) { |key, oldval, newval| oldval | newval }
           misconception.pattern = miscon
         end
         misconception.save!
