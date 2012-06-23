@@ -107,6 +107,7 @@ class QuizQuestion::Base
     user_answer = QuizQuestion::UserAnswer.new(self.question_id, self.points_possible, answer_data)
     user_answer.total_parts = total_answer_parts
     correct_parts = correct_answer_parts(user_answer)
+    debugger
 
     if !correct_parts.nil?
       correct_parts = 0 if correct_parts == false

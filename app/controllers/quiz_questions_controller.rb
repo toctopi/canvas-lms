@@ -43,9 +43,9 @@ class QuizQuestionsController < ApplicationController
         misconception = Misconception.find(answer[:misconception_id])
         miscon = misconception.pattern
         if miscon.empty?
-          misconception.pattern = {"#{@question.id}"=>[index]}
+          misconception.pattern = {"#{@question.id}"=>[answer[:id]]}
         else
-          miscon.merge!({"#{@question.id}"=>[index]}) do |key, oldval, newval|
+          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) do |key, oldval, newval|
             (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
           end
           misconception.pattern = miscon
@@ -84,14 +84,21 @@ class QuizQuestionsController < ApplicationController
       @question.save
       @quiz.did_edit if @quiz.created?
 
+      # remove the old references 
       @question.question_data[:answers].each_with_index do |answer, index|
+        misconception = Misconception.find(answer[:misconception_id])
+        misconception.pattern.delete("#{@question.id}")
+      end
+
+      @question.question_data[:answers].each_with_index do |answer, index|
+
         misconception = Misconception.find(answer[:misconception_id])
         miscon = misconception.pattern
 
         if miscon.empty?
-          misconception.pattern = {"#{@question.id}"=>[index]}
+          misconception.pattern = {"#{@question.id}"=>[answer[:id]]}
         else
-          miscon.merge!({"#{@question.id}"=>[index]}) do |key, oldval, newval|
+          miscon.merge!({"#{@question.id}"=>[answer[:id]]}) do |key, oldval, newval|
             (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
           end
           misconception.pattern = miscon
