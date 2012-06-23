@@ -368,6 +368,16 @@ class QuizSubmission < ActiveRecord::Base
     @tally = 0
     @user_answers = []
     data = self.submission_data || {}
+
+    @error_hash = {"total_error_tally"=>0}
+    quiz = Quiz.find(data[:quiz_id])
+    @misconceptions = quiz.misconceptions
+    @misconceptions.active.each do |misconception|
+      temp_hash = @error_hash
+      temp_hash.merge!("#{misconception.name}"=>0)
+      @error_hash = temp_hash
+    end
+
     self.questions_as_object.each do |q|
       user_answer = self.class.score_question(q, data)
       @user_answers << user_answer
@@ -529,6 +539,7 @@ class QuizSubmission < ActiveRecord::Base
       :points => user_answer.score,
       :question_id => user_answer.question_id,
     }
+    debugger
     result[:answer_id] = user_answer.answer_id if user_answer.answer_id
     result.merge!(user_answer.answer_details)
     return result

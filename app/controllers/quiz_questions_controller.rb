@@ -43,9 +43,11 @@ class QuizQuestionsController < ApplicationController
         misconception = Misconception.find(answer[:misconception_id])
         miscon = misconception.pattern
         if miscon.empty?
-          misconception.pattern = {"#{index}"=>@question.id}
+          misconception.pattern = {"#{@question.id}"=>[index]}
         else
-          miscon.merge!({"#{index}"=>@question.id})
+          miscon.merge!({"#{@question.id}"=>[index]}) do |key, oldval, newval|
+            (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
+          end
           misconception.pattern = miscon
         end
         misconception.save!
@@ -83,14 +85,15 @@ class QuizQuestionsController < ApplicationController
       @quiz.did_edit if @quiz.created?
 
       @question.question_data[:answers].each_with_index do |answer, index|
-        debugger
         misconception = Misconception.find(answer[:misconception_id])
         miscon = misconception.pattern
-        debugger
+
         if miscon.empty?
-          misconception.pattern = {"#{index}"=>@question.id}
+          misconception.pattern = {"#{@question.id}"=>[index]}
         else
-          miscon.merge!({"#{index}"=>@question.id})
+          miscon.merge!({"#{@question.id}"=>[index]}) do |key, oldval, newval|
+            (newval.is_a?(Array) ? (oldval + newval) : (oldval << newval)).uniq
+          end
           misconception.pattern = miscon
         end
         misconception.save!
