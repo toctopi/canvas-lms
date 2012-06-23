@@ -310,7 +310,16 @@ TEXT
     <div class="requirements_met">&nbsp;</div>
     <div class="current_position">&nbsp;</div>
     <div class="collapsed">&nbsp;</div>
-    <div class="released_states">{"79":false}</div>
+    <div class="released_states">
+      <% user_modules = @current_user.modules_released_to_users -%>
+      <% modules_hash = {} -%>
+      <% user_modules.active.each do |mod| -%>
+        <% temp_hash = modules_hash -%>
+        <% temp_hash.merge!({"#{mod.content_tag_id}"=>mod.released}) -%>
+        <% modules_hash.merge!(temp_hash) -%>
+      <% end -%>
+      <%= modules_hash %>
+    </div>
   </div>
 </div>
 <% if can_do(@context, @current_user, :manage_grades) %>

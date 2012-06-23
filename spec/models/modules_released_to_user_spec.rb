@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'ruby-debug'
 
 describe ModulesReleasedToUser do
   before(:each) do
@@ -8,7 +9,7 @@ describe ModulesReleasedToUser do
       :released => false,
       :context_id => 1,
       :context_type => "value for context_type",
-      :workflow_state => 1
+      :workflow_state => "available"
     }
   end
 

@@ -337,7 +337,7 @@ class QuizzesController < ApplicationController
         params[:quiz][:assignment_id] = nil unless @assignment
         params[:quiz][:title] = @assignment.title if @assignment
       end
-      debugger
+      
       @quiz = @context.quizzes.build(params[:quiz])
       @quiz.content_being_saved_by(@current_user)
       @quiz.infer_times

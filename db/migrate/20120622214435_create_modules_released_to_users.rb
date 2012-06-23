@@ -1,6 +1,6 @@
 class CreateModulesReleasedToUsers < ActiveRecord::Migration
   tag :predeploy
-  
+
   def self.up
     create_table :modules_released_to_users do |t|
       t.integer :content_tag_id, :limit => 8
@@ -8,7 +8,7 @@ class CreateModulesReleasedToUsers < ActiveRecord::Migration
       t.boolean :released
       t.integer :context_id, :limit => 8
       t.string :context_type
-      t.integer :workflow_state
+      t.string :workflow_state
 
       t.timestamps
     end
