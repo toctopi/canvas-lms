@@ -69,18 +69,6 @@ class QuizQuestionsController < ApplicationController
     if authorized_action(@quiz, @current_user, :update)
       @question = @quiz.quiz_questions.find(params[:id])
 
-      @question.question_data[:answers].each_with_index do |answer, index|
-        misconception = Misconception.find(answer[:misconception_id])
-        miscon = misconception.pattern
-        if miscon.empty?
-          misconception.pattern = {"#{index}"=>@question.id}
-        else
-          miscon.merge!({"#{index}"=>@question.id})
-          misconception.pattern = miscon
-        end
-        misconception.save!
-      end
-
       question_data = params[:question]
       question_data ||= {}
       if question_data[:quiz_group_id]
@@ -93,6 +81,20 @@ class QuizQuestionsController < ApplicationController
       @question.question_data = question_data
       @question.save
       @quiz.did_edit if @quiz.created?
+
+      @question.question_data[:answers].each_with_index do |answer, index|
+        debugger
+        misconception = Misconception.find(answer[:misconception_id])
+        miscon = misconception.pattern
+        debugger
+        if miscon.empty?
+          misconception.pattern = {"#{index}"=>@question.id}
+        else
+          miscon.merge!({"#{index}"=>@question.id})
+          misconception.pattern = miscon
+        end
+        misconception.save!
+      end
       
       render :json => @question.to_json(:include => :assessment_question)
     end

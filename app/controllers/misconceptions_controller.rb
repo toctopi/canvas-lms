@@ -30,4 +30,10 @@ class MisconceptionsController < ApplicationController
   def show
   end
 
+  def destroy
+    @misconception = Misconception.find(params[:id])
+    @misconception.destroy
+    render :json => @misconception.to_json
+  end
+
 end
