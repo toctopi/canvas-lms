@@ -1558,6 +1558,7 @@ div#audio_upload,div#video_upload{background:white;font-size:1.2em}
 #student_progression_dialog .module_progressions tr.locked td.icon{background:transparent url(/images/lock.png?1339529765) no-repeat center center}
 div.completion_criterion_option select.assignment_picker{width:160px}
 body.ie div.completion_criterion_option select.assignment_picker{width:auto}
+.context_module_item.not_released{display:none}
 .collaborator_list{list-style-type:none;margin:0;padding-left:30px;max-height:300px;overflow:auto;border:1px solid #aaa}
 .collaborator_list .collaborator{color:#444;font-size:.8em}
 #collaborations .collaboration{background-image:url(/images/google_docs.png?1339529765);background-repeat:no-repeat;border:1px solid #aaa;padding:10px 10px 10px 60px;margin-bottom:10px;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}

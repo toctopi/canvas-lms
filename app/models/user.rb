@@ -134,6 +134,8 @@ class User < ActiveRecord::Base
 
   has_many :collections, :as => :context
 
+  has_many :modules_released_to_users
+
   include StickySisFields
   are_sis_sticky :name, :sortable_name, :short_name
 
