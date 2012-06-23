@@ -85,9 +85,11 @@ class QuizQuestionsController < ApplicationController
       @quiz.did_edit if @quiz.created?
 
       # remove the old references 
-      @question.question_data[:answers].each_with_index do |answer, index|
-        misconception = Misconception.find(answer[:misconception_id])
-        misconception.pattern.delete("#{@question.id}")
+      @quiz.misconceptions.active.each do |misconception|
+        miscon = misconception.pattern
+        miscon.delete("#{@question.id}")
+        misconception.pattern = miscon
+        misconception.save!
       end
 
       @question.question_data[:answers].each_with_index do |answer, index|
