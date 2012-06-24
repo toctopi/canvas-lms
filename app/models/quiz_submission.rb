@@ -377,8 +377,6 @@ class QuizSubmission < ActiveRecord::Base
       temp_hash.merge!("#{misconception.name}"=>0)
       @error_hash = temp_hash
     end
-    @max_error_code = ""
-    @max_so_far = 0
 
     self.questions_as_object.each do |q|
       user_answer = self.class.score_question(q, data)
@@ -406,7 +404,8 @@ class QuizSubmission < ActiveRecord::Base
       @tally += (user_answer[:points] || 0) if user_answer[:correct]
     end
 
-    @error_hash.find("total_error_tally") < 5
+    @max_error_code = ""
+    @max_so_far = 0
     @error_hash.each do |key, value|
       if (key != 'total_error_tally' && key != '0' && value > @max_so_far)
         @max_so_far = value
@@ -416,23 +415,251 @@ class QuizSubmission < ActiveRecord::Base
 
     @user = User.find(self.user_id)
 
-    if (@error_hash.find("total_error_tally") > 0)
-      if (@error_hash.find("total_error_tally") > 5)
+    debugger
+
+    if (@error_hash["total_error_tally"] > 0)
+      if (@error_hash["total_error_tally"] > 5) # give quiz Z
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(31))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 31, :released => true, :workflow_state => "available")
+        end
+    #   @misconceptions.active.each do |misconception|
+    #     if (misconception.name == @max_error_code)
+
+    #     end
+    #   end
+      end
+      if (@error_hash["1"] == 4 || @error_hash["1"] == 5) # give quiz A
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(10))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 10, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 3 && (@error_hash["total_error_tally"] == 3 || @error_hash["total_error_tally"] == 4)) # give quiz B
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(11))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 11, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 3 && @error_hash["total_error_tally"] == 5) # give quiz C
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(17))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 17, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["2"] == 3 && @error_hash["total_error_tally"] == 3) # give quiz D
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(18))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 18, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["2"] == 3 && (@error_hash["total_error_tally"] == 4 || @error_hash["total_error_tally"] == 5)) # give quiz E
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(91))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 91, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["3"] == 4 || @error_hash["3"] == 5) # give quiz F
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(20))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 20, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["3"] == 3 && (@error_hash["total_error_tally"] == 3 || @error_hash["total_error_tally"] == 4)) # give quiz G
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(21))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 21, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["3"] == 3 && @error_hash["total_error_tally"] == 5) # give quiz H
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(22))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 22, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["4"] == 4 || @error_hash["4"] == 5) # give quiz I
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(23))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 23, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["4"] == 3 && (@error_hash["total_error_tally"] == 3 || @error_hash["total_error_tally"] == 4)) # give quiz J
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(24))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 24, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["4"] == 3 && @error_hash["total_error_tally"] == 5) # give quiz K
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(25))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 25, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["5"] == 4) # give quiz L
         mr = @user.modules_released_to_users
         if (m = mr.find_by_content_tag_id(26))
           m.released = true
+          m.save!
         else
           mr.create!(:content_tag_id => 26, :released => true, :workflow_state => "available")
         end
-      else
-        @misconceptions.active.each do |misconception|
-          if (misconception.name == @max_error_code)
-
-          end
+      end
+      if (@error_hash["5"] == 3 && (@error_hash["total_error_tally"] == 3 || @error_hash["total_error_tally"] == 4)) # give quiz M
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(27))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 27, :released => true, :workflow_state => "available")
         end
       end
+      if (@error_hash["4"] == 3 && @error_hash["total_error_tally"] == 5) # give quiz N
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(28))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 28, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 2 && @error_hash["2"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 2 && @error_hash["3"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 2 && @error_hash["4"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["1"] == 2 && @error_hash["5"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["2"] == 2 && @error_hash["3"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["2"] == 2 && @error_hash["4"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["2"] == 2 && @error_hash["5"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["3"] == 2 && @error_hash["4"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["3"] == 2 && @error_hash["5"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["4"] == 2 && @error_hash["5"] == 2) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+      end
+      if (@error_hash["total_error_tally"] <= 3 && @error_hash["1"] < 3 && @error_hash["2"] < 3 && @error_hash["3"] < 3 && @error_hash["4"] < 3 && @error_hash["5"] < 3) # give quiz O
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(29))
+          m.released = true
+          m.save!
+        else
+          mr.create!(:content_tag_id => 29, :released => true, :workflow_state => "available")
+        end
+          
+      end
     end
-    debugger
+    
 
     self.score = @tally
     self.score = self.quiz.points_possible if self.quiz && self.quiz.quiz_type == 'graded_survey'

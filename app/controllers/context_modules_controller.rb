@@ -87,6 +87,7 @@ class ContextModulesController < ApplicationController
       @module.attributes = params[:context_module]
       respond_to do |format|
         if @module.save
+          debugger
           @context.students.each do |student|
             @module.content_tags.active.each do |content_tag|
               mr = student.modules_released_to_users
@@ -311,6 +312,15 @@ class ContextModulesController < ApplicationController
     if authorized_action(@module, @current_user, :update)
       @tag = @module.add_item(params[:item]) #@item)
       @module.touch
+      @context.students.each do |student|
+        mr = student.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(@tag.id))
+          m.released ||= false
+        else
+          mod = mr.create!(:content_tag_id => @tag.id, :released => false, :workflow_state => "available")
+          mod.save!
+        end
+      end
       render :json => @tag.to_json
     end
   end

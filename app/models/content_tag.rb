@@ -27,7 +27,7 @@ class ContentTag < ActiveRecord::Base
   belongs_to :rubric_association
   belongs_to :cloned_item
   has_many :learning_outcome_results
-  has_many :modules_released_to_users
+  has_many :modules_released_to_users, :dependent => :destroy
   # This allows bypassing loading context for validation if we have
   # context_id and context_type set, but still allows validating when
   # context is not yet saved.
