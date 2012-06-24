@@ -369,19 +369,35 @@ define([
         }
         $module.fillTemplateData({data: {progression_state: progression_state}});
         $module.toggleClass('locked_module', data.workflow_state == 'locked' && !$module.hasClass('editable_context_module'));
+        
+        var has_released_modules = true;
+        var context_module_element = "";
         $module.find(".context_module_item").each(function() {
           var position = parseInt($(this).getTemplateData({textValues: ['position']}).position, 10);
           if(data.current_position && position && data.current_position < position) {
             $(this).addClass('after_current_position');
           }
           var module_item_id = $(this).attr("id").substring(20);
-          if(adaptive_sequence && data.released_states[module_item_id] == false) {
+          if(adaptive_sequence && data.released_states[module_item_id] != true) {
             $(this).addClass('not_released');
+            has_released_modules = false;
           }
           else{
             $(this).removeClass('not_released');
           }
+
+          context_module_element = $(this).parent().parent().parent().attr('id')
         });
+
+        if (!has_released_modules){
+          $("#"+context_module_element).addClass('not_released');
+        }
+        else{
+          $("#"+context_module_element).removeClass('not_released');
+        }
+
+
+
         if(data.requirements_met) {
           var reqs = data.requirements_met.split(",");
           for(var idx in reqs) {

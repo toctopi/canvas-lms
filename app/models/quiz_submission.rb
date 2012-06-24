@@ -377,6 +377,8 @@ class QuizSubmission < ActiveRecord::Base
       temp_hash.merge!("#{misconception.name}"=>0)
       @error_hash = temp_hash
     end
+    @max_error_code = ""
+    @max_so_far = 0
 
     self.questions_as_object.each do |q|
       user_answer = self.class.score_question(q, data)
@@ -401,10 +403,37 @@ class QuizSubmission < ActiveRecord::Base
         end
       end
 
-
-
       @tally += (user_answer[:points] || 0) if user_answer[:correct]
     end
+
+    @error_hash.find("total_error_tally") < 5
+    @error_hash.each do |key, value|
+      if (key != 'total_error_tally' && key != '0' && value > @max_so_far)
+        @max_so_far = value
+        @max_error_code = key
+      end
+    end
+
+    @user = User.find(self.user_id)
+
+    if (@error_hash.find("total_error_tally") > 0)
+      if (@error_hash.find("total_error_tally") > 5)
+        mr = @user.modules_released_to_users
+        if (m = mr.find_by_content_tag_id(26))
+          m.released = true
+        else
+          mr.create!(:content_tag_id => 26, :released => true, :workflow_state => "available")
+        end
+      else
+        @misconceptions.active.each do |misconception|
+          if (misconception.name == @max_error_code)
+
+          end
+        end
+      end
+    end
+    debugger
+
     self.score = @tally
     self.score = self.quiz.points_possible if self.quiz && self.quiz.quiz_type == 'graded_survey'
     self.submission_data = @user_answers

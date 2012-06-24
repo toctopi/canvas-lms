@@ -87,6 +87,17 @@ class ContextModulesController < ApplicationController
       @module.attributes = params[:context_module]
       respond_to do |format|
         if @module.save
+          @context.students.each do |student|
+            @module.content_tags.active.each do |content_tag|
+              mr = student.modules_released_to_users
+              if (m = mr.find_by_content_tag_id(content_tag.id))
+                m.released ||= false
+              else
+                mod = mr.create!(:content_tag_id => content_tag.id, :released => false, :workflow_state => "available")
+                mod.save!
+              end
+            end
+          end
           format.html { redirect_to named_context_url(@context, :context_context_modules_url) }
           format.json { render :json => @module.to_json(:include => :content_tags, :permissions => {:user => @current_user, :session => session}) }
         else
@@ -349,6 +360,17 @@ class ContextModulesController < ApplicationController
     if authorized_action(@module, @current_user, :update)
       respond_to do |format|
         if @module.update_attributes(params[:context_module])
+          @context.students.each do |student|
+            @module.content_tags.active.each do |content_tag|
+              mr = student.modules_released_to_users
+              if (m = mr.find_by_content_tag_id(content_tag.id))
+                m.released ||= false
+              else
+                mod = mr.create!(:content_tag_id => content_tag.id, :released => false, :workflow_state => "available")
+                mod.save!
+              end
+            end
+          end
           format.json { render :json => @module.to_json(:include => :content_tags, :permissions => {:user => @current_user, :session => session}) }
         else
           format.json { render :json => @module.errors.to_json, :status => :bad_request }
