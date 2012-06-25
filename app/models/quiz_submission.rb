@@ -383,7 +383,7 @@ class QuizSubmission < ActiveRecord::Base
       @user_answers << user_answer
 
       #
-      # go through all the misconceptions and tally up
+      # go through all the misconceptions user answers and tally up
       # all the misconceptions the student may have
       @misconceptions.active.each do |misconception|
         if (misconception.pattern["#{user_answer[:question_id]}"] != nil)
@@ -424,6 +424,14 @@ class QuizSubmission < ActiveRecord::Base
 
     @user = User.find(self.user_id)
     @modules_released = @user.modules_released_to_users
+
+
+######################################################################################################################################
+#
+#   Hard coded sequence area begin
+#
+######################################################################################################################################
+
 
     #
     # Release the top three videos
@@ -532,6 +540,12 @@ class QuizSubmission < ActiveRecord::Base
         release_module(@modules_released, 29)
       end
     end
+
+######################################################################################################################################
+#
+#   Hard coded sequence area end
+#
+######################################################################################################################################
     
 
     self.score = @tally
