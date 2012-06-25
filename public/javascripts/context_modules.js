@@ -378,7 +378,7 @@ define([
             $(this).addClass('after_current_position');
           }
           var module_item_id = $(this).attr("id").substring(20);
-          if(adaptive_sequence && data.released_states[module_item_id] != true) {
+          if((adaptive_sequence == "true" || adaptive_sequence == true) && data.released_states[module_item_id] != true) {
             $(this).addClass('not_released');
             has_released_modules = false;
           }
