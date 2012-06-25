@@ -53,6 +53,7 @@ pre{margin:1.5em 0;white-space:pre}
 pre,code,tt{font:1em "andale mono","lucida console",monospace;line-height:1.5}
 body,html{height:100%}
 body{background:url(/images/body-bg.png?1339529765) repeat-x top #e0e0e0}
+body #footer{display:none}
 body.no-headers{background:white}
 body.no-headers #header,body.no-headers #topbar,body.no-headers #left-side,body.no-headers #breadcrumbs{display:none!important}
 body.no-headers #footer{display:none}
@@ -1558,6 +1559,7 @@ div#audio_upload,div#video_upload{background:white;font-size:1.2em}
 #student_progression_dialog .module_progressions tr.locked td.icon{background:transparent url(/images/lock.png?1339529765) no-repeat center center}
 div.completion_criterion_option select.assignment_picker{width:160px}
 body.ie div.completion_criterion_option select.assignment_picker{width:auto}
+.context_module.not_released{display:none}
 .context_module_item.not_released{display:none}
 .collaborator_list{list-style-type:none;margin:0;padding-left:30px;max-height:300px;overflow:auto;border:1px solid #aaa}
 .collaborator_list .collaborator{color:#444;font-size:.8em}

@@ -20,11 +20,6 @@ db/development_structure.sql
 db/schema.rb
 noodle*
 tmp_*
-public/files/**/*
-public/javascripts/cached/*
-public/javascripts/translations/*
-public/javascripts/jst/*
-public/stylesheets/cached/*
 *.pid
 vendor/cache/*mswin*.gem
 vendor/cache
