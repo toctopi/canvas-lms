@@ -32,6 +32,14 @@ class ContextModule < ActiveRecord::Base
   before_save :confirm_valid_requirements
   after_save :check_students
   after_save :touch_context
+
+  def adaptive_sequence=(v)
+    write_attribute(:adaptive_sequence, v)
+  end
+
+  def adaptive_sequence
+    read_attribute(:adaptive_sequence)
+  end
   
   def self.module_positions(context)
     # Keep a cached hash of all modules for a given context and their 
